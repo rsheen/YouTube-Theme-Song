@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> What's my Theme Song! </title>
+	<style>
+		#feedback { font-size: 1.4em; }
+  		#selectable .ui-selecting { background: #FECA40; }
+  		#selectable .ui-selected { background: #F39814; color: white; }
+  		#selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  		#selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+
+  		#selectBox {
+  			width: 400px;
+  			height: 400px;
+  			border: black;
+  		}
+  		#player{
+  			float: right;
+  		}
+
+	</style>
+</head>
+<body>
+	<div class = "container">
+		<div id = "selectBox">
+			<ol id="selectable">
+  				<li class="ui-widget-content">Optimistic</li>
+  				<li class="ui-widget-content">Fearless</li>
+  				<li class="ui-widget-content">Competitive</li>
+  				<li class="ui-widget-content">Independent</li>
+  				<li class="ui-widget-content">Silly</li>
+			</ol>
+		</div> 
+
+    <div id="buttons">
+            <label><input id="query" value='cats' type="text"/><button id="search-button"  onclick="searchRequest()">Search</button></label>
+        </div>
+    <div id="search-container"></div>
+
+
+		<button id="gen-btn" onclick="search();"> Play My Theme Song </button>
+		<div id="player"></div>
+		
+	</div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>    
+    
+
+  	<script>
+    var characterTypes = [
+    ['Happy- Pharell', 'All The Small Things - Blink 182', 'One Step at a Time - Jordan Sparks', 'Bounce Back - Big Sean', 'Stronger - Kelly Clarkson'],
+    ['Roar — Katy Perry', 'Survivor — Destiny’s Child', 'Shake It Off - Taylor Swift', 'Stronger - Kanye West', 'Sorry - Beyonce'], 
+    ['USC Fight Song', 'Eye Of The Tiger — Survivor', 'Tunnel Vision - Lil Kodak', 'All Star - Smashmouth', 'Another One Bites The Dust by Queen'],
+    ['independent - webbie feat. lilphat & lil boosie', 'Born this Way - Lady Gaga', 'Scars To Your Beautiful  - Alessia Cara', 'Me Too - Meghan Trainor', 'Work - Rihanna'], 
+    ['You and Me - Marc E. Bassy', 'All of Me - John Legend', 'Isnt She Lovely - Stevie Wonder', 'Thinking Out Loud - Ed Sheeran', 'Skinny Love - Bon Iver']];
+
+    function searchRequest() {
+                var q = $('#query').val();
+                var request = gapi.client.youtube.search.list({
+                           q: q,
+                        part: 'snippet'                        
+                });
+                request.execute(function(response) {
+                        var str = JSON.stringify(response.result);
+                        console.log(str);
+                        // $('#search-container').html('<pre>' + str + '</pre>');
+                });
+    };
+    function googleApiClientReady(){
+            gapi.client.setApiKey('AIzaSyDzyytxZ_j3vxyJLCQKTHOlEjRaf0iY5IY');
+            gapi.client.load('youtube', 'v3', function() {});
+    };
+
+  
+//SELECTABLE STUFF
+
+  		$( function() {
+    		$( "#selectable" ).selectable();
+  		});
+
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: 'M7lc1UVf-VE',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+     
+ 
+  </script>
+  <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"> </script>
+</body>
+</html>
