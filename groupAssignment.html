@@ -84,7 +84,9 @@
                 });
                 request.execute(function(response) {
                         var str = JSON.stringify(response.result);
-                        console.log(str);
+                        // console.log(str);
+                        console.log(response.result);
+                        console.log(response.result.items[0].id.videoId);
                         // $('#search-container').html('<pre>' + str + '</pre>');
                 });
     };
