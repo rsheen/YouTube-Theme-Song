@@ -8,7 +8,6 @@
   		#selectable .ui-selected { background: #F39814; color: white; }
   		#selectable { list-style-type: none; padding: 0; width: 60%; margin: 0 auto;}
   		#selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; border:1px dotted gray; }
-
   		#selectBox {
   			width: 400px;
   			height: 400px;
@@ -33,7 +32,6 @@
     #player{
       margin-top:15px;
     }
-
 	</style>
 </head>
 <body>
@@ -59,6 +57,9 @@
             <label><input id="query" value='cats' type="text"/><button id="search-button"  onclick="searchRequest()">Search</button></label>
         </div>
     <div id="search-container"></div>
+    <p id="feedback">
+    You've selected: <span id="select-result">none</span>.
+    </p>
 		
 	</div> <!-- end of container -->
 
@@ -75,16 +76,16 @@
     ['USC Fight Song', 'Eye Of The Tiger — Survivor', 'Tunnel Vision - Lil Kodak', 'All Star - Smashmouth', 'Another One Bites The Dust by Queen'],
     ['independent - webbie feat. lilphat & lil boosie', 'Born this Way - Lady Gaga', 'Scars To Your Beautiful  - Alessia Cara', 'Me Too - Meghan Trainor', 'Work - Rihanna'], 
     ['You and Me - Marc E. Bassy', 'All of Me - John Legend', 'Isnt She Lovely - Stevie Wonder', 'Thinking Out Loud - Ed Sheeran', 'Skinny Love - Bon Iver']];
-
     function searchRequest() {
-                var q = $('#query').val();
+                var q = desiredSong;
                 var request = gapi.client.youtube.search.list({
                            q: q,
                         part: 'snippet'                        
                 });
                 request.execute(function(response) {
-                        var str = JSON.stringify(response.result);
-                        console.log(str);
+                        //var str = JSON.stringify(response.result);
+                        //console.log(str);
+                        console.log(response.result.items[0].id.videoId);
                         // $('#search-container').html('<pre>' + str + '</pre>');
                 });
     };
@@ -92,21 +93,63 @@
             gapi.client.setApiKey('AIzaSyDzyytxZ_j3vxyJLCQKTHOlEjRaf0iY5IY');
             gapi.client.load('youtube', 'v3', function() {});
     };
-
   
 //SELECTABLE STUFF
 
-  		
-    	$("#selectable").selectable();
-  		
+    //$("#selectable").selectable();
+
+      var index;
+      var desiredSong;
+
+  		$(function() {
+        $("#selectable").selectable({
+            stop: function(){
+                var result = $("#select-result").empty();
+                $(".ui-selected", this).each(function(){
+                    index = $("#selectable li").index(this);
+                    //result.append(" #" + (index + 1));
+                    console.log(index);
+                });
+            }
+        });
+    });
+
+      function search(){
+        if (index == '0'){
+          choiceSongs = characterTypes[0];
+          randVar = floor(math.rand()*5);
+          desiredSong = choiceSongs[randVar];
+        }
+        else if(index == '1'){
+          choiceSongs = characterTypes[1];
+          randVar = floor(math.rand()*5);
+          desiredSong = choiceSongs[randVar]
+        }
+        else if(index == '2'){
+          choiceSongs = characterTypes[2];
+          randVar = floor(math.rand()*5);
+          desiredSong = choiceSongs[randVar]
+        }
+        else if(index == '3'){
+          choiceSongs = characterTypes[3];
+          randVar = floor(math.rand()*5);
+          desiredSong = choiceSongs[randVar]
+        }
+        else if (index == '4'){
+          choiceSongs = characterTypes[4];
+          randVar = floor(math.rand()*5);
+          desiredSong = choiceSongs[randVar]
+        }
+      }
+
+      //console.log(index);
+  
 
       // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
-
       tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
       // 3. This function creates an <iframe> (and YouTube player)
       //    after the API code downloads.
       var player;
@@ -121,12 +164,10 @@
           }
         });
       }
-
       // 4. The API will call this function when the video player is ready.
       function onPlayerReady(event) {
         event.target.playVideo();
       }
-
       // 5. The API calls this function when the player's state changes.
       //    The function indicates that when playing a video (state=1),
       //    the player should play for six seconds and then stop.
@@ -140,6 +181,8 @@
       function stopVideo() {
         player.stopVideo();
       }
+
+
      
  
   </script>
