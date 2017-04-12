@@ -2,36 +2,75 @@
 <html>
 <head>
 	<title> What's my Theme Song! </title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Permanent+Marker" rel="stylesheet">
 	<style>
+    body{
+      font-family: 'Open Sans', sans-serif;
+      font-size: 10pt;
+
+    }
+    header h1{
+      font-family: 'Permanent Marker', cursive;
+      font-size: 2.5em;
+    }
 		#feedback { font-size: 1.4em; }
   		#selectable .ui-selecting { background: #FECA40; }
   		#selectable .ui-selected { background: #F39814; color: white; }
   		#selectable { list-style-type: none; padding: 0; width: 60%; margin: 0 auto;}
-  		#selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; border:1px dotted gray; }
+  		#selectable li { 
+        margin: 3px; 
+        padding: 0.4em; 
+        font-size: 1.4em; 
+        height: 18px;     
+        border: 1px solid white;
+        border-radius: 4px; 
+      }
   		#selectBox {
   			width: 400px;
   			height: 400px;
   			border: black;
   		}
-  		#player{
-  			float: right;
-  		}
+
     header{
       text-align: center;
     }
-    #selectBox, #generate{
+    #selectBox{
       float: left;
     }
     #gen-btn{
       width:300px;
       height:40px;
       border-radius: 4px;
-      color: white;
+      color: #444;
       font-size:1.1em;
+      background-color: #FFCC00;
+      margin-top:15px;
+      font-weight: bold;
     }
     #player{
       margin-top:15px;
     }
+    .container{
+      background-color: #990000;
+      text-align: center;
+      min-height: 80vh;
+      color: white;
+    }
+
+    #selectable .ui-selected{
+      background: #FFCC00;
+    }
+    .ui-widget-content{
+      color: white;
+    }
+    #selectBox{
+      margin-top: 2vh;
+    }
+    #song-video{
+      margin-top: 30px;
+    }
+
+    
 	</style>
 </head>
 <body>
@@ -40,26 +79,28 @@
   </header>
 	<div class = "container">
 		<div id = "selectBox">
+      <h2>Choose what describes you best.</h2>
 			<ol id="selectable">
   				<li class="ui-widget-content">Optimistic</li>
   				<li class="ui-widget-content">Fearless</li>
   				<li class="ui-widget-content">Competitive</li>
   				<li class="ui-widget-content">Independent</li>
-  				<li class="ui-widget-content">Silly</li>
+  				<li class="ui-widget-content">Romantic</li>
 			</ol>
+      <button id="gen-btn" onclick="search();"> Play My Theme Song </button><br>
 		</div> <!-- end of selectBox -->
-    <div id="generate">
-        <button id="gen-btn" onclick="searchRequest();"> Play My Theme Song </button><br>
-        <div id="player"></div>
-    </div>
+    
+    
 
-    <div id="buttons">
-            <label><input id="query" value='cats' type="text"/><button id="search-button"  onclick="searchRequest()">Search</button></label>
-        </div>
+  
     <div id="search-container"></div>
-    <p id="feedback">
-    You've selected: <span id="select-result">none</span>.
-    </p>
+
+    <iframe id="song-video"
+        width="640" height="360"
+        src="https://www.youtube.com/embed/WDZJPJV__bQ?enablejsapi=1"
+        frameborder="0"
+        style="border: solid 4px #37474F"></iframe>
+
 		
 	</div> <!-- end of container -->
 
@@ -71,48 +112,16 @@
   	<script>
       console.log(document.querySelector('#selectable li').value);
     var characterTypes = [
-    ['Happy- Pharell', 'All The Small Things - Blink 182', 'One Step at a Time - Jordan Sparks', 'Bounce Back - Big Sean', 'Stronger - Kelly Clarkson'],
+    ['Happy - Pharell', 'All The Small Things - Blink 182', 'One Step at a Time - Jordan Sparks', 'Bounce Back - Big Sean', 'Stronger - Kelly Clarkson'],
     ['Roar — Katy Perry', 'Survivor — Destiny’s Child', 'Shake It Off - Taylor Swift', 'Stronger - Kanye West', 'Sorry - Beyonce'], 
     ['USC Fight Song', 'Eye Of The Tiger — Survivor', 'Tunnel Vision - Lil Kodak', 'All Star - Smashmouth', 'Another One Bites The Dust by Queen'],
     ['independent - webbie feat. lilphat & lil boosie', 'Born this Way - Lady Gaga', 'Scars To Your Beautiful  - Alessia Cara', 'Me Too - Meghan Trainor', 'Work - Rihanna'], 
     ['You and Me - Marc E. Bassy', 'All of Me - John Legend', 'Isnt She Lovely - Stevie Wonder', 'Thinking Out Loud - Ed Sheeran', 'Skinny Love - Bon Iver']];
-<<<<<<< HEAD
-
-    function googleApiClientReady(){
-            gapi.client.setApiKey('AIzaSyDzyytxZ_j3vxyJLCQKTHOlEjRaf0iY5IY');
-            gapi.client.load('youtube', 'v3', function() {});
-    };
-
-=======
->>>>>>> origin/master
-    function searchRequest() {
-                var q = desiredSong;
-                var request = gapi.client.youtube.search.list({
-                           q: q,
-                        part: 'snippet'                        
-                });
-                request.execute(function(response) {
-                        //var str = JSON.stringify(response.result);
-                        //console.log(str);
-                        console.log(response.result.items[0].id.videoId);
-                        // $('#search-container').html('<pre>' + str + '</pre>');
-                        yourVideo = response.result.items[0].id.videoId;
-                        onYouTubeIframeAPIReady(); 
-                });
-<<<<<<< HEAD
-
-
-
-
-    };
     
-=======
-    };
     function googleApiClientReady(){
             gapi.client.setApiKey('AIzaSyDzyytxZ_j3vxyJLCQKTHOlEjRaf0iY5IY');
             gapi.client.load('youtube', 'v3', function() {});
     };
->>>>>>> origin/master
   
 //SELECTABLE STUFF
 
@@ -120,10 +129,6 @@
 
       var index;
       var desiredSong;
-<<<<<<< HEAD
-      var yourVideo = 'd8kCTPPwfpM';
-=======
->>>>>>> origin/master
 
   		$(function() {
         $("#selectable").selectable({
@@ -138,97 +143,53 @@
         });
     });
 
+    function genVideo() {
+      var q = desiredSong;
+      var request = gapi.client.youtube.search.list({
+          q: q,
+          part: 'snippet'                        
+      });
+      request.execute(function(response) {
+              //var str = JSON.stringify(response.result);
+              //console.log(str);
+              console.log(response.result.items[0].id.videoId);
+              document.querySelector('#song-video').src = 'https://www.youtube.com/embed/' + response.result.items[0].id.videoId + '?enablejsapi=1';
+              // $('#search-container').html('<pre>' + str + '</pre>');
+      });
+    };
+
       function search(){
         if (index == '0'){
           choiceSongs = characterTypes[0];
-<<<<<<< HEAD
           randVar = Math.floor(Math.random()*5);
-=======
-          randVar = floor(math.rand()*5);
->>>>>>> origin/master
           desiredSong = choiceSongs[randVar];
         }
         else if(index == '1'){
           choiceSongs = characterTypes[1];
-<<<<<<< HEAD
-          randVar = Math.floor(Math.random()*5);
-=======
-          randVar = floor(math.rand()*5);
->>>>>>> origin/master
+          randVar = Math.floor(Math.random()*5); //0-4.999, = 0-4
           desiredSong = choiceSongs[randVar]
         }
         else if(index == '2'){
           choiceSongs = characterTypes[2];
-<<<<<<< HEAD
           randVar = Math.floor(Math.random()*5);
-=======
-          randVar = floor(math.rand()*5);
->>>>>>> origin/master
           desiredSong = choiceSongs[randVar]
         }
         else if(index == '3'){
           choiceSongs = characterTypes[3];
-<<<<<<< HEAD
           randVar = Math.floor(Math.random()*5);
-=======
-          randVar = floor(math.rand()*5);
->>>>>>> origin/master
           desiredSong = choiceSongs[randVar]
         }
         else if (index == '4'){
           choiceSongs = characterTypes[4];
-<<<<<<< HEAD
           randVar = Math.floor(Math.random()*5);
-=======
-          randVar = floor(math.rand()*5);
->>>>>>> origin/master
           desiredSong = choiceSongs[randVar]
         }
+        console.log('randVar = ' + randVar)
+        console.log('desiredSong = ' + desiredSong);
+        genVideo();
       }
 
-      //console.log(index);
-  
-
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '390',
-          width: '640',
-          videoId: yourVideo,
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
-        }
-      }
-      function stopVideo() {
-        player.stopVideo();
-      }
-
-
-     
- 
+      
   </script>
   <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"> </script>
 </body>
